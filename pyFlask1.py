@@ -61,7 +61,12 @@ def my_form():
 @app.route("/send", methods=['GET', 'POST'])
 def send():
     if request.method == 'POST':
-        #retrieve input boundaries from user
+
+        #n-students, layout-data, female-ratio, male-ratio, other-ratio,
+        #poor-ratio, middle-class-ratio, wealthy-ratio
+        #native-ratio, esl-ratio
+
+        #get form data from names
         yearF = request.form['ctl_list_YearFrom']
         yearFi = int(yearF)
         weekF = request.form['ctl_list_WeekFrom']
