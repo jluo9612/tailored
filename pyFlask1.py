@@ -6,6 +6,7 @@ import plotly.plotly as py
 import plotly.tools as plotly_tools
 from plotly.graph_objs import *
 
+import json
 import os
 py.sign_in("ACodeMZ", "FC5PBOKLqkR0GSFE94e9")
 app = Flask(__name__)
@@ -62,11 +63,37 @@ def my_form():
 def send():
     if request.method == 'POST':
 
-        #n-students, layout-data, female-ratio, male-ratio, other-ratio,
-        #poor-ratio, middle-class-ratio, wealthy-ratio
-        #native-ratio, esl-ratio
+       # just output to json file
+        students = int(request.form['n-students'])
+        layoutData = list(map(int, request.form['layout-data'].splitlines()))
+        #layoutData = [int(i) for i in request.form['layout-data']]
+        femaleRatio = float(request.form['female-ratio'])
+        maleRatio = float(request.form['male-ratio'])
+        otherRatio = float(request.form['other-ratio'])
+        poorRatio = float(request.form['poor-ratio'])
+        middleClassRatio = float(request.form['middle-class-ratio'])
+        wealthyRatio = float(request.form['wealthy-ratio'])
+        nativeRatio = float(request.form['native-ratio'])
+        eslRatio = float(request.form['esl-ratio'])
 
-        #get form data from names
+        results = {
+            "students":students,
+            "layoutData":layoutData,
+            "femaleRatio":femaleRatio,
+            "maleRatio": maleRatio,
+            "otherRatio": otherRatio,
+            "poorRatio": poorRatio,
+            "middleClassRatio": middleClassRatio,
+            "wealthyRatio": wealthyRatio,
+            "nativeRatio": nativeRatio,
+            "eslRatio": eslRatio
+        }
+
+        f = open('in.json', 'w')
+        f.write(json.dumps(results))
+        f.close()
+
+        #retrieve input boundaries from user
         yearF = request.form['ctl_list_YearFrom']
         yearFi = int(yearF)
         weekF = request.form['ctl_list_WeekFrom']
@@ -144,7 +171,7 @@ def send():
         #create html summary table
         dfSum = dfSum.to_html().replace('<table border="1" class="dataframe">','<table class="table table-striped">')  #Table of analyzed data
         dfSum = dfSum.replace("<thead>",'<thead class="thead-dark">')
-        os.remove("/Users/Andres/Documents/Python/templates/result.html")   #clear old results
+        os.remove("/Users/jiabeiluo/Desktop/studentrngdemo/templates/result.html")   #clear old results
 
         #HTML code for the results
         html_string = '''
@@ -218,7 +245,8 @@ def send():
         </html>'''
 
         #create the HTML file 
-        f = open('/Users/Andres/Documents/Python/templates/result.html','w')
+        
+        f = open('/Users/jiabeiluo/Desktop/studentrngdemo/templates/result.html','w')
         f.write(html_string)
         f.close()
         
