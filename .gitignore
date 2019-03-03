@@ -1,2 +1,14 @@
+#basics
+.gitignore
+
+#vscode stuff
+.vscode
+
+#out data
+in.json
+
+.DS_Store
+
+#venv stuff
 venv
 flask
